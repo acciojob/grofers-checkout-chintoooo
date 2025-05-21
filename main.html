@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Grofers Checkout</title>
   <style>
-    td[contenteditable="true"] {
-      background-color: #f0f8ff;
-      border: 1px solid #ccc;
-    }
     table {
       border-collapse: collapse;
+      width: 50%;
+      margin-top: 20px;
     }
-    td, th {
+    th, td {
+      border: 1px solid #ddd;
       padding: 8px;
-      border: 1px solid #ccc;
+    }
+    td[contenteditable="true"] {
+      background-color: #f9f9f9;
     }
   </style>
 </head>
 <body>
   <h2>Grocery List</h2>
+
   <table id="groceryTable">
     <tr class="item">
       <td>Apples</td>
@@ -52,31 +54,14 @@
       const prices = document.querySelectorAll(".price");
       let total = 0;
 
-      prices.forEach(priceCell => {
-        const value = parseFloat(priceCell.textContent.trim());
+      prices.forEach(cell => {
+        const value = parseFloat(cell.textContent.trim());
         if (!isNaN(value)) {
           total += value;
         }
       });
 
-      // Remove old total row if any
-      const oldRow = document.querySelector("#groceryTable tfoot");
-      if (oldRow) oldRow.remove();
-
-      // Optional: Append a total row to the table
-      const table = document.getElementById("groceryTable");
-      const tfoot = document.createElement("tfoot");
-      const totalRow = document.createElement("tr");
-      const totalCell = document.createElement("td");
-
-      totalCell.colSpan = 2;
-      totalCell.textContent = "Total Price: " + total;
-
-      totalRow.appendChild(totalCell);
-      tfoot.appendChild(totalRow);
-      table.appendChild(tfoot);
-
-      // Also show total in separate element
+      // Set total in the #ans element
       document.getElementById("ans").textContent = total;
     }
   </script>
