@@ -1,16 +1,84 @@
-<table id="groceryTable">
-  <tr class="item">
-    <td>Apples</td>
-    <td class="prices">50</td>
-  </tr>
-  <tr class="item">
-    <td>Bananas</td>
-    <td class="prices">30</td>
-  </tr>
-  <tr class="item">
-    <td>Milk</td>
-    <td class="prices">60</td>
-  </tr>
-</table>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Grofers Checkout</title>
+  <style>
+    td[contenteditable="true"] {
+      background-color: #f0f8ff;
+      border: 1px solid #ccc;
+    }
+    table {
+      border-collapse: collapse;
+    }
+    td, th {
+      padding: 8px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <h2>Grocery List</h2>
+  <table id="groceryTable">
+    <tr class="item">
+      <td>Apples</td>
+      <td class="price" contenteditable="true">50</td>
+    </tr>
+    <tr class="item">
+      <td>Bananas</td>
+      <td class="price" contenteditable="true">30</td>
+    </tr>
+    <tr class="item">
+      <td>Milk</td>
+      <td class="price" contenteditable="true">60</td>
+    </tr>
+    <tr class="item">
+      <td>Bread</td>
+      <td class="price" contenteditable="true">40</td>
+    </tr>
+    <tr class="item">
+      <td>Butter</td>
+      <td class="price" contenteditable="true">90</td>
+    </tr>
+  </table>
 
-<input type="button" value="Calculate Total" onclick="calculateTotal()" />
+  <br />
+  <button onclick="calculateTotal()">Calculate Total</button>
+
+  <h3 id="ans"></h3>
+
+  <script>
+    function calculateTotal() {
+      const prices = document.querySelectorAll(".price");
+      let total = 0;
+
+      prices.forEach(priceCell => {
+        const value = parseFloat(priceCell.textContent.trim());
+        if (!isNaN(value)) {
+          total += value;
+        }
+      });
+
+      // Remove old total row if any
+      const oldRow = document.querySelector("#groceryTable tfoot");
+      if (oldRow) oldRow.remove();
+
+      // Optional: Append a total row to the table
+      const table = document.getElementById("groceryTable");
+      const tfoot = document.createElement("tfoot");
+      const totalRow = document.createElement("tr");
+      const totalCell = document.createElement("td");
+
+      totalCell.colSpan = 2;
+      totalCell.textContent = "Total Price: " + total;
+
+      totalRow.appendChild(totalCell);
+      tfoot.appendChild(totalRow);
+      table.appendChild(tfoot);
+
+      // Also show total in separate element
+      document.getElementById("ans").textContent = total;
+    }
+  </script>
+</body>
+</html>

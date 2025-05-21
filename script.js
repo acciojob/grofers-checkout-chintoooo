@@ -1,21 +1,17 @@
-<script>
-  function calculateTotal() {
-    const priceCells = document.querySelectorAll(".prices");
-    let total = 0;
+describe('Grofers Checkout Test', () => {
+  it('edits prices and calculates correct total', () => {
+    cy.visit('http://localhost:3000/');
 
-    priceCells.forEach(cell => {
-      total += parseFloat(cell.textContent);
+    const newPrices = [55, 75, 100, 130, 50];
+
+    cy.get('.price').each(($el, index) => {
+      cy.wrap($el)
+        .invoke('attr', 'contenteditable', 'true')
+        .clear({ force: true }) // Clear existing content
+        .type(`${newPrices[index]}`, { force: true }); // Type new value
     });
 
-    // Create a new row and cell
-    const table = document.getElementById("groceryTable");
-    const totalRow = document.createElement("tr");
-    const totalCell = document.createElement("td");
-
-    totalCell.colSpan = 2; // Spans across both columns
-    totalCell.textContent = "Total Price: " + total;
-
-    totalRow.appendChild(totalCell);
-    table.appendChild(totalRow);
-  }
-</script>
+    cy.get('button').click();
+    cy.get('#ans').should('contain', '410');
+  });
+});
